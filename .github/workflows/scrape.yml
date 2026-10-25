@@ -1,0 +1,33 @@
+# .github/workflows/scrape.yml
+# Crée ce fichier dans ton repo à ce chemin exact
+
+name: FC27 Scraper
+
+on:
+  schedule:
+    - cron: '*/15 * * * *'   # toutes les 15 minutes
+  workflow_dispatch:           # aussi déclenchable manuellement
+
+jobs:
+  scrape:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Scrape futbin
+        run: node scraper.js
+
+      - name: Commit deals.json
+        run: |
+          git config user.name  "FC27 Bot"
+          git config user.email "bot@fc27.local"
+          git add deals.json
+          git diff --staged --quiet || git commit -m "update deals $(date -u +%H:%M)"
+          git push

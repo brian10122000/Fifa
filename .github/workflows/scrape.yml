@@ -1,12 +1,11 @@
 # .github/workflows/scrape.yml
-# Crée ce fichier dans ton repo à ce chemin exact
 
 name: FC27 Scraper
 
 on:
   schedule:
-    - cron: '*/15 * * * *'   # toutes les 15 minutes
-  workflow_dispatch:           # aussi déclenchable manuellement
+    - cron: '*/15 * * * *'
+  workflow_dispatch:
 
 jobs:
   scrape:
@@ -17,12 +16,15 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - uses: actions/setup-node@v4
+      - uses: actions/setup-python@v5
         with:
-          node-version: '20'
+          python-version: '3.11'
+
+      - name: Install curl_cffi
+        run: pip install curl-cffi -q
 
       - name: Scrape futbin
-        run: node scraper.js
+        run: python scraper.py
 
       - name: Commit deals.json
         run: |

@@ -1,0 +1,9 @@
+{
+  "name": "fc27-flip-dashboard",
+  "version": "1.0.0",
+  "description": "Dashboard Achat/Revente FC 27 (PC) avec taxe EA 5%",
+  "main": "server/index.js",
+  "scripts": { "start": "node server/index.js", "dev": "node --watch server/index.js" },
+  "engines": { "node": ">=18" },
+  "dependencies": { "cors": "^2.8.5", "express": "^4.19.2" }
+}
